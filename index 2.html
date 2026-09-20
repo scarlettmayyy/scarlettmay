@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scarlett May Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Droid+Sans+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#eae1cb;
+    --cream-deep:#ded0a9;
+    --paper:#d2c4a0;
+    --wallpaper:#bcae8b;
+    --ink:#221c15;
+    --ink-soft:#5b5140;
+    --rust:#8b3a2e;
+    --wine:#4a2027;
+    --olive:#63633f;
+    --line: rgba(34,28,21,0.16);
+    --logo: url("scarlett-may-site/images/logo.png");
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  a{color:inherit;}
+
+  /* film grain, sits over everything */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:999;
+    pointer-events:none;
+    opacity:0.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .wrap{max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,56px);}
+
+  /* aged / peeling-wallpaper texture, layered per-section */
+  .texture-a{
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(ellipse 620px 420px at 12% 18%, rgba(139,58,46,0.14), transparent 60%),
+      radial-gradient(ellipse 520px 520px at 88% 74%, rgba(99,99,63,0.18), transparent 58%),
+      radial-gradient(ellipse 760px 320px at 50% 102%, rgba(34,28,21,0.10), transparent 62%),
+      radial-gradient(ellipse 300px 300px at 70% 10%, rgba(234,225,203,0.5), transparent 60%);
+  }
+  .texture-b{
+    background-color:var(--wallpaper);
+    background-image:
+      radial-gradient(ellipse 700px 460px at 82% 12%, rgba(74,32,39,0.24), transparent 58%),
+      radial-gradient(ellipse 560px 560px at 8% 82%, rgba(139,58,46,0.18), transparent 55%),
+      radial-gradient(ellipse 900px 340px at 40% 50%, rgba(34,28,21,0.14), transparent 65%);
+  }
+  .texture-dark{
+    background-color:var(--wine);
+    background-image:
+      radial-gradient(ellipse 700px 500px at 20% 20%, rgba(139,58,46,0.35), transparent 60%),
+      radial-gradient(ellipse 600px 500px at 85% 80%, rgba(34,28,21,0.5), transparent 60%);
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;
+    top:0;left:0;right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px clamp(20px,4vw,56px);
+    background:url("./public/white tex.png") center / cover no-repeat;
+    border-bottom:1px solid var(--line);
+  }
+  .brandmark{
+    display:block;
+    width:150px;
+    height:22px;
+    background-image:var(--logo);
+    background-repeat:no-repeat;
+    background-position:left center;
+    background-size:contain;
+    transform:scale(6.25);
+    transform-origin:left center;
+    margin: 0 0 0 -35px;
+    text-indent:-9999px;
+    overflow:hidden;
+  }
+  nav.links{display:flex;gap:clamp(14px,2vw,30px);align-items:center;}
+  nav.links .collection-menu{position:relative;}
+  nav.links .collection-trigger{border:0;padding:0;background:none;color:inherit;font-family:var(--font-body);font-size:0.78rem;font-weight:400;letter-spacing:.03em;cursor:pointer;opacity:.78;}
+  nav.links .collection-trigger:hover{opacity:1;}
+  nav.links .collection-dropdown{position:absolute;top:100%;left:50%;display:none;min-width:110px;padding-top:12px;transform:translateX(-50%);}
+  nav.links .collection-dropdown a{display:block;padding:10px 14px;background:var(--cream);border:1px solid var(--line);text-align:center;}
+  nav.links .collection-menu:hover .collection-dropdown,
+  nav.links .collection-menu:focus-within .collection-dropdown,
+  nav.links .collection-menu.open .collection-dropdown{display:block;}
+  nav.links a{
+    font-size:0.78rem;
+    letter-spacing:.03em;
+    text-decoration:none;
+    color:var(--ink);
+    opacity:0.78;
+    transition:opacity .2s ease;
+    white-space:nowrap;
+  }
+  nav.links a:hover{opacity:1;}
+  .ig-link{display:flex;align-items:center;}
+  .ig-link svg{width:19px;height:19px;display:block;}
+  .nav-toggle{
+    display:none;
+    background:none;border:none;color:var(--ink);
+    font-family:var(--font-body);font-size:0.78rem;letter-spacing:.03em;
+    cursor:pointer;
+    padding:6px 0;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:92svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0px clamp(20px,4vw,56px);
+    overflow:hidden;
+    background:var(--cream);
+  }
+  .hero video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(0.58) contrast(1.1);
+    z-index:0;
+  }
+  .hero > * {
+    position:relative;
+    z-index:1;
+  }
+  .hero-logo{
+    width:min(px, 82vw);
+    aspect-ratio:1600/236;
+    background-image:var(--logo);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+    margin:0 auto;
+    transform:scale(6);
+    filter:drop-shadow(0 0 8px rgba(0,0,0,0.15));
+  }
+  /*
+    To use your own opening video instead of this textured background:
+    1. Add a <video autoplay muted loop playsinline> with a <source> pointing to your clip
+       inside .hero, positioned behind .hero-logo with position:absolute; inset:0; object-fit:cover;
+    2. Keep the .hero-logo on top so it still reads over the footage.
+  */
+
+  /* ---------- about-quick card ---------- */
+  .about-quick{padding:clamp(0px,0vw,0px) 0;}
+  .about-card{
+    max-width:520px;
+    margin:0 auto;
+    padding:clamp(0px,0vw,0px);
+    text-align:center;
+    transform:rotate(-0.6deg);
+    border:1px solid var(--line);
+    box-shadow:0 18px 40px rgba(34,28,21,0.10);
+  }
+  .about-card p.kicker{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:1.05rem;
+    margin:0 0 14px 0;
+  }
+  .about-card p.body{
+    font-size:0.92rem;
+    line-height:1.7;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* ---------- runway ---------- */
+  .runway{
+    position:relative;
+    overflow:hidden;
+    color:var(--cream);
+    padding:clamp(80px,12vw,140px) 0;
+    text-align:center;
+  }
+  .runway video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(0.52) contrast(1.08);
+  }
+  .runway > .wrap{
+    position:relative;
+    z-index:1;
+  }
+  .runway h2{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.8rem,3.6vw,3rem);
+    margin:0 0 16px 0;
+  }
+  .runway p{
+    font-size:0.85rem;
+    color:rgba(234,225,203,0.7);
+    max-width:46ch;
+    margin:0 auto 30px;
+    line-height:1.6;
+  }
+  /*
+    The runway video sits behind the section content and plays automatically.
+  */
+  .runway-cta{
+    display:inline-block;
+    margin-top:30px;
+    padding:13px 26px;
+    border:1px solid rgba(234,225,203,0.55);
+    font-size:0.74rem;
+    letter-spacing:.08em;
+    text-decoration:none;
+    color:var(--cream);
+    transition:background .2s ease, color .2s ease;
+  }
+  .runway-cta:hover{background:var(--cream);color:var(--ink);}
+  .runway-caption{
+    position:absolute;
+    right:20px;
+    bottom:16px;
+    left:20px;
+    z-index:1;
+    margin:0;
+    color:#fff;
+    font-size:0.72rem;
+    letter-spacing:.04em;
+    text-align:center;
+  }
+
+  /* ---------- section shared ---------- */
+  section{padding:clamp(64px,10vw,120px) 0;}
+  .label{
+    font-size:0.72rem;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin:0 0 18px 0;
+  }
+
+  /* ---------- collection grid ---------- */
+  .grid-collection{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 14vw;
+    gap:14px;
+  }
+  .look{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .look .tag{
+    position:absolute;
+    left:14px;bottom:12px;
+    font-size:0.72rem;
+    letter-spacing:.04em;
+    color:var(--cream);
+    background:rgba(34,28,21,0.5);
+    padding:4px 9px;
+  }
+  .look.a{grid-column:1 / 4;grid-row:1 / 3;}
+  .look.b{grid-column:4 / 7;grid-row:1 / 2;}
+  .look.c{grid-column:4 / 6;grid-row:2 / 3;}
+  .look.d{grid-column:6 / 7;grid-row:2 / 3;}
+  .look.e{grid-column:1 / 3;grid-row:3 / 4;}
+  .look.f{grid-column:3 / 7;grid-row:3 / 4;}
+
+  .tone-rust{background:linear-gradient(160deg,#8b3a2e,#4a2027 75%);}
+  .tone-olive{background:linear-gradient(160deg,#63633f,#3a3a26 75%);}
+  .tone-paper{background:linear-gradient(160deg,#d2c4a0,#b9ac88 75%);}
+
+  .collection-note{
+    margin-top:20px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+
+  /* ---------- shop rtw ---------- */
+  .shop-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .product{
+    border:1px solid var(--line);
+    padding:20px;
+  }
+  .product .swatch{
+    aspect-ratio:3/4;
+    margin-bottom:14px;
+  }
+  .product .name{
+     font-family:'Droid Sans Mono', 'SFMono-Regular', Consolas, monospace;
+    font-style:normal;
+    font-size:1.05rem;
+    margin:0 0 4px;
+  }
+  .product .price{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* ---------- about (long) ---------- */
+  .about-long{
+    display:grid;
+    grid-template-columns: 0.9fr 1.6fr;
+    gap:40px;
+    border-top:1px solid var(--line);
+  }
+  .about-long h2{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.8rem,3vw,2.6rem);
+    margin:0;
+  }
+  .about-body p{
+    font-size:0.98rem;
+    line-height:1.75;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+  .about-body p:first-child{color:var(--ink);}
+
+  /* ---------- contact ---------- */
+  .about-intro{
+    position:relative;
+    min-height:320px;
+    display:grid;
+    place-items:center;
+    padding:40px 0;
+    background:
+      linear-gradient(90deg, rgba(234,225,203,0.18), rgba(234,225,203,0.18)),
+      url("public/white tex.png") center / cover no-repeat;
+  }
+  .hero-caption{
+    position:absolute;
+    top:16px;
+    left:20px;
+    right:20px;
+    margin:0;
+    font-size:0.72rem;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+  .about-card{
+    position:relative;
+    z-index:2;
+    width:min(78vw, 920px);
+    max-width:none;
+    padding:22px 40px;
+    border:1px solid rgba(234,225,203,0.38);
+    background:rgba(234,225,203,0.12);
+    box-shadow:0 18px 40px rgba(34,28,21,0.18);
+    backdrop-filter: blur(2px);
+  }
+
+  .contact{
+    position:relative;
+    scroll-margin-top:90px;
+    border-top:1px solid var(--line);
+    background:#111;
+  }
+  .contact::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url("scarlett-may-site/images/black tex.png") center / cover no-repeat;
+    opacity: 0.5;
+    pointer-events:none;
+  }
+  .contact > .wrap{position:relative;z-index:1;}
+  .contact-grid{
+    display:grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap:50px;
+  }
+  .contact-info h2{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.8rem,3vw,2.4rem);
+    margin:0 0 28px 0;
+    color:var(--cream);
+  }
+  .contact-list{list-style:none;margin:0;padding:0;}
+  .contact-list li{
+    padding:14px 0;
+    border-top:1px solid var(--line);
+    font-size:0.95rem;
+  }
+  .contact-list li:last-child{border-bottom:1px solid var(--line);}
+  .contact-list .k{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:0.7rem;
+    letter-spacing:.06em;
+    color:var(--cream);
+    margin-bottom:4px;
+  }
+  .contact-list a{text-decoration:none;color:var(--cream);}
+  .contact-list a:hover{color:var(--cream);}
+  .contact-list .instagram-icon{width:15px;height:15px;display:block;}
+
+  .contact-form{display:flex;flex-direction:column;gap:16px;}
+  .contact-form h2{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.5rem,2.4vw,2rem);
+    margin:0 0 8px;
+    color:var(--cream);
+  }
+  .contact-form label{
+    font-size:0.7rem;
+    letter-spacing:.06em;
+    color:var(--cream);
+    display:block;
+    margin-bottom:6px;
+  }
+  .contact-form label::after{
+    content:" *";
+    color:rgba(190,190,190,0.7);
+  }
+  .contact-form input,
+  .contact-form textarea{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(190,190,190,0.45);
+    padding:9px 2px;
+    font-family:var(--font-body);
+    font-size:0.95rem;
+    color:var(--cream);
+    outline:none;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus{border-bottom-color:var(--ink);}
+  .contact-form textarea{resize:vertical;min-height:90px;}
+  .contact-form button{
+    align-self:flex-start;
+    margin-top:8px;
+    padding:13px 30px;
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    font-size:0.76rem;
+    letter-spacing:.06em;
+    cursor:pointer;
+    transition:opacity .2s ease;
+  }
+  .contact-form button:hover{opacity:0.82;}
+  /*
+    This form needs a backend to actually send you emails — static HTML alone
+    can't do that. The quickest free option: create an account at formspree.io,
+    make a form there, and replace the "action" URL below with the one they
+    give you. No other changes needed.
+  */
+
+  /* ---------- footer ---------- */
+  footer{padding-top:0;}
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:start;
+    padding:22px clamp(20px,4vw,56px) 40px;
+    font-size:0.72rem;
+    letter-spacing:.03em;
+    color:var(--cream);
+    opacity:0.75;
+    flex-wrap:wrap;
+    gap:10px;
+    background:var(--ink);
+  }
+  .footer-bottom a{text-decoration:none;color:var(--cream);}
+  .footer-socials{display:flex;gap:16px;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px){
+    nav.links{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:url("./public/white tex.png") center / cover no-repeat;
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      padding:0 24px;
+      gap:22px;
+      transform:translateY(-100%);
+      transition:transform .35s ease;
+      z-index:90;
+    }
+    nav.links.open{transform:translateY(0);}
+    nav.links .collection-dropdown{position:static;transform:none;padding-top:10px;}
+    nav.links .collection-dropdown a{font-size:1.05rem;}
+    nav.links a{font-size:1.4rem;opacity:1;}
+    nav.links .collection-trigger{font-size:1.4rem;opacity:1;}
+    .nav-toggle{display:block;}
+
+    .grid-collection{grid-template-columns:repeat(2,1fr);grid-auto-rows:38vw;}
+    .look.a{grid-column:1/3;grid-row:1/2;}
+    .look.b{grid-column:1/2;grid-row:2/3;}
+    .look.c{grid-column:2/3;grid-row:2/3;}
+    .look.d{grid-column:1/2;grid-row:3/4;}
+    .look.e{grid-column:2/3;grid-row:3/4;}
+    .look.f{grid-column:1/3;grid-row:4/5;}
+
+    .shop-grid{grid-template-columns:1fr;}
+    .about-long{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="#top" class="brandmark" aria-label="Scarlett May — home"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="toggle menu">menu</button>
+    <nav class="links" id="navLinks">
+      <div class="collection-menu"><button class="collection-trigger" type="button" aria-expanded="false">Collections</button><div class="collection-dropdown"><a href="collections.html">SS26/27</a></div></div>
+      <a href="rtw.html">Shop RTW</a>
+      <a href="about.html">About</a>
+      <a href="#contact">Contact</a>
+      <a href="https://www.instagram.com/scarlettmay____/" target="_blank" rel="noopener" class="ig-link"
+        aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4.2" />
+          <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero texture-a" id="top">
+    <video autoplay muted loop playsinline poster="">
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-logo"></div>
+  </section>
+
+  <section class="about-intro">
+    <p class="hero-caption">filler vid "Chloé Fall 25 by Chemena Kamali"</p>
+    <div class="about-card">
+      <p class="kicker">About "Scarlett May"</p>
+      <p class="body">
+        The community behind “Scarlett May” believes in giving light to the chaos and vulnerability that linger deep beneath the
+        surface.
+        
+        We support those who wish to truly express their inner state through externalising physically beyond the
+        surface.
+        Beyond the performance we create to exist in this world.
+        
+      We “Scarlett May” are here to unveil that controlled persona.
+      </p>
+    </div>
+  </section>
+
+
+  <section class="runway texture-dark">
+    <video autoplay muted loop playsinline>
+      <source src="runway%20filler%20vid.mp4" type="video/mp4">
+    </video>
+    <div class="wrap">
+      <h2>"RETROFÊTE: FALL/WINTER 2024 COLLECTION"</h2>
+      <a href="collections.html" class="runway-cta">VIEW FULL COLLECTION</a>
+    </div>
+    <p class="runway-caption">filler vid </p>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Contact</h2>
+          <ul class="contact-list">
+            <li><span class="k">Email</span><a href="mailto:scarlettmay22@gmail.com">scarlettmay22@gmail.com</a></li>
+            <li><span class="k">Phone</span><a href="tel:+61428241020">+61 428 241 020</a></li>
+            <li><a class="k" href="https://www.instagram.com/scarlettmay____/" target="_blank" rel="noopener"><svg
+                  class="instagram-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                  aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4.2" />
+                  <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+                </svg>Instagram</a><a href="https://www.instagram.com/scarlettmay____/" target="_blank"
+                rel="noopener">@scarlettmay____</a></li>
+          </ul>
+        </div>
+        <form class="contact-form" action="https://formspree.io/f/yourFormID" method="POST">
+          <h2>Enquiry</h2>
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 by Scarlett Mandić, founder of Scarlett May.</span>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/scarlettmay____/" target="_blank" rel="noopener">Instagram</a>
+        <a href="mailto:scarlettmay22@gmail.com">Email</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    const collectionMenu = document.querySelector('.collection-menu');
+    const collectionTrigger = document.querySelector('.collection-trigger');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.textContent = open ? 'close' : 'menu';
+    });
+    collectionTrigger.addEventListener('click', () => {
+      const open = collectionMenu.classList.toggle('open');
+      collectionTrigger.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      links.classList.remove('open');
+      collectionMenu.classList.remove('open');
+      toggle.textContent = 'menu';
+   }));
+</script>
+
+</body>
+</html>
