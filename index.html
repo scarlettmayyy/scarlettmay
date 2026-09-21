@@ -167,7 +167,7 @@
     background-position:center;
     background-size:contain;
     margin:0;
-    transform:translate(-50%, -50%) scale(5.7);
+    transform:translate(-50%, -50%) scale(6.3);
     filter:drop-shadow(0 0 8px rgba(0,0,0,0.15));
   }
   /*
@@ -516,6 +516,9 @@
 
   /* ---------- responsive ---------- */
   @media (max-width: 860px){
+    .about-card{width:calc(100% - 40px);padding:22px 20px;}
+    .contact-grid{grid-template-columns:1fr;gap:36px;}
+    .runway h2{font-size:clamp(1.5rem,7vw,2.3rem);}
     nav.links{
       position:fixed;
       top:0;left:0;right:0;bottom:0;
@@ -553,7 +556,7 @@
 
   <header>
     <a href="#top" class="brandmark" aria-label="Scarlett May — home"></a>
-    <button class="nav-toggle" id="navToggle" aria-label="toggle menu">menu</button>
+    <button class="nav-toggle" id="navToggle" aria-label="toggle menu" aria-expanded="false" aria-controls="navLinks" type="button">menu</button>
     <nav class="links" id="navLinks">
       <div class="collection-menu"><button class="collection-trigger" type="button" aria-expanded="false">Collections</button><div class="collection-dropdown"><a href="collections.html">SS26/27</a></div></div>
       <a href="rtw.html">Shop RTW</a>
@@ -624,7 +627,7 @@
                 rel="noopener">@scarlettmay____</a></li>
           </ul>
         </div>
-        <form class="contact-form" action="https://formspree.io/f/yourFormID" method="POST">
+        <form class="contact-form" id="contactForm">
           <h2>Enquiry</h2>
           <div>
             <label for="name">Name</label>
@@ -663,6 +666,7 @@
     toggle.addEventListener('click', () => {
       const open = links.classList.toggle('open');
       toggle.textContent = open ? 'close' : 'menu';
+      toggle.setAttribute('aria-expanded', open);
     });
     collectionTrigger.addEventListener('click', () => {
       const open = collectionMenu.classList.toggle('open');
@@ -672,7 +676,15 @@
       links.classList.remove('open');
       collectionMenu.classList.remove('open');
       toggle.textContent = 'menu';
+      toggle.setAttribute('aria-expanded', 'false');
    }));
+    document.getElementById('contactForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const subject = encodeURIComponent(`Website enquiry from ${form.elements.name.value}`);
+      const body = encodeURIComponent(`Name: ${form.elements.name.value}\nEmail: ${form.elements.email.value}\n\n${form.elements.message.value}`);
+      window.location.href = `mailto:scarlettmay22@gmail.com?subject=${subject}&body=${body}`;
+    });
 </script>
 
 </body>
