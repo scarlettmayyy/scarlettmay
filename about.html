@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Scarlett May</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,0..144,400;1,0..144,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="page.css">
+</head>
+
+<body>
+    <header><a href="index.html" class="brandmark" aria-label="Scarlett May home"></a><button class="nav-toggle"
+            id="navToggle" aria-label="toggle menu">menu</button>
+        <nav class="links" id="navLinks"><div class="collection-menu"><button class="collection-trigger" type="button" aria-expanded="false">Collections</button><div class="collection-dropdown"><a href="collections.html">SS26/27</a></div></div><a href="rtw.html">Shop RTW</a><a
+            href="about.html">About</a><a href="index.html#contact">Contact</a><a
+                href="https://www.instagram.com/scarlettmay____/" target="_blank" rel="noopener" class="ig-link"
+                aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.2" cy="6.8" r=".6" fill="currentColor" stroke="none" />
+                </svg></a></nav>
+    </header>
+    <main>
+        <section class="page-intro">
+            <div class="wrap">
+                <h1>About Our Practice</h1>
+                <p style="max-width:58ch;line-height:1.8;color:var(--cream);"
+                >At Scarlett May, fashion is treated as an artistic practice rather than simply a product. Founder, Scarlett Mandić is
+                driven by emotion, instinct and most importantly her strong intuition.</p>
+
+                <p style="max-width:58ch;line-height:1.8;color:var(--cream);">The practice of “Scarlett May” will never be about just “making more clothes”. Pieces from the brand become a way of
+                making internal worlds physical, through an obsession to find unusual materials, using only dead stock & reclaimed
+                materials, from old furnishings, and fabrications that have a history, to create a narrative through each of the unique
+                pieces, hoping to make an experience for each viewer rather, that really tell a story.</p>
+
+                <p style="max-width:58ch;line-height:1.8;color:var(--cream);">“I am here to create an experience, a performance, a new world.”
+                - Scarlett Mandić</p>
+            </div>
+        </section>
+        <section class="content-section story-section">
+            <div class="wrap">
+                <h2>Our Story</h2>
+                <p style="max-width:58ch;line-height:1.8;color:var(--ink-soft);">“Scarlett May” founded by Scarlett Mandić, is a forever evolving artistic lead practice born from a deeply emotional and
+                and forever restless mind.
+                <p style="max-width:58ch;line-height:1.8;color:var(--ink-soft);">Behind my first collection, comes from an obsession to understand the psychological mind and understanding how each
+                individual flows through this world. Being highly inspired by overlooked characters throughout history, I have taken
+                them as reference throughout my debut collection. “Scarlett May” strives to create a world that is slightly strange,
+                bringing light to the overlooked and underestimated, to make my viewers feel and push beyond the perceptions of others.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-bottom"><span>© 2026 by Scarlett Mandić, founder of Scarlett May.</span>
+            <div class="footer-socials"><a href="https://www.instagram.com/scarlettmay____/" target="_blank"
+                    rel="noopener">Instagram</a><a href="index.html#contact">Email</a></div>
+        </div>
+    </footer>
+    <script>const toggle = document.getElementById('navToggle'); const links = document.getElementById('navLinks'); const collectionMenu = document.querySelector('.collection-menu'); const collectionTrigger = document.querySelector('.collection-trigger'); toggle.addEventListener('click', () => { const open = links.classList.toggle('open'); toggle.textContent = open ? 'close' : 'menu'; }); collectionTrigger.addEventListener('click', () => { const open = collectionMenu.classList.toggle('open'); collectionTrigger.setAttribute('aria-expanded', open); }); links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); collectionMenu.classList.remove('open'); toggle.textContent = 'menu'; }));</script>
+</body>
+
+</html>
